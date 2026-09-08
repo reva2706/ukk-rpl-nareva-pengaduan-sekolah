@@ -1,0 +1,12 @@
+{
+  "source_archives": [
+    "sarana_pengaduan_sekolah.zip",
+    "admin_sekolah-main-1.zip"
+  ],
+  "packaged_on": "2026-09-08",
+  "notes": [
+    "Two Flutter projects preserved under separate folders.",
+    "Firebase web API key strings were replaced with a placeholder in the GitHub-ready package because the supplied UKK guide explicitly prohibits uploading API keys.",
+    "Documentation is draft and requires real screenshots, Firebase Rules, demo accounts, and actual test results before final submission."
+  ]
+}

@@ -1,0 +1,34 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials (UKK)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+serviceAccount*.json
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Local Firebase / emulator data
+.firebase/
+firestore-debug.log
+firebase-debug.log
+ui-debug.log
