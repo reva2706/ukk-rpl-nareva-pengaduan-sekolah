@@ -85,9 +85,9 @@ Isi dengan akun DEMO yang benar-benar aktif sebelum repository diserahkan kepada
 
 | Peran | Username/Email | Password |
 |---|---|---|
-| Siswa | `ISI_AKUN_DEMO` | `ISI_PASSWORD_DEMO` |
-| Petugas | `ISI_AKUN_DEMO` | `ISI_PASSWORD_DEMO` |
-| Admin | `ISI_AKUN_DEMO` | `ISI_PASSWORD_DEMO` |
+| Siswa | `123456789` | `1234` |
+| Petugas | `PTG001` | `123456` |
+| Admin | `admin@smkn1sanden.sch.id` | `adminsekolah123` |
 
 ## Dokumentasi
 - `docs/01-analisis-kebutuhan.pdf`
