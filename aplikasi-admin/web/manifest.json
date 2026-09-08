@@ -1,0 +1,23 @@
+{
+  "name": "Portal Admin SMKN 1 Sanden",
+  "short_name": "Admin SMKN 1",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0F1D38",
+  "theme_color": "#0F1D38",
+  "description": "Sistem Pengaduan Aspirasi SMKN 1 Sanden",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "logo_sekolahbg.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_sekolahbg.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

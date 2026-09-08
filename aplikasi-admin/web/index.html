@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Admin Web Aspirasi SMKN 1 Sanden">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Admin Aspirasi">
+  <link rel="apple-touch-icon" href="logo_sekolahbg.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo_sekolahbg.png"/>
+
+  <title>Admin Aspirasi SMKN 1 Sanden</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- Script Firebase untuk Web Push Notification -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_WEB_API_KEY",
+      authDomain: "pengaduansekolah-eb875.firebaseapp.com",
+      projectId: "pengaduansekolah-eb875",
+      storageBucket: "pengaduansekolah-eb875.firebasestorage.app",
+      messagingSenderId: "265155033945",
+      appId: "1:265155033945:web:87b10e00993670c2922a48",
+      measurementId: "G-WN6RZCQHEL"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
