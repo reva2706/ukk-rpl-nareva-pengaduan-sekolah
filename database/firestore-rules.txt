@@ -1,0 +1,5 @@
+# FIRESTORE RULES - WAJIB DILENGKAPI SEBELUM SUBMIT
+
+Salin aturan Firestore TERBARU dari Firebase Console → Firestore Database → Rules ke file ini.
+
+Jangan mengarang aturan. File ini sengaja diberi placeholder agar repository tidak menyatakan aturan yang belum diverifikasi.
