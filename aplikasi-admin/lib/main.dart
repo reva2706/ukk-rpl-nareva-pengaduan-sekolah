@@ -26,11 +26,15 @@ void main() async {
   );
 
   // Daftarkan background messaging handler sebelum runApp
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const AdminApp());
 }
 
+// ==================== HALAMAN ADMIN ====================
+// Fungsi: Bagian halaman admin pada aplikasi.
 class AdminApp extends StatelessWidget {
   const AdminApp({super.key});
 
@@ -55,6 +59,8 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -74,6 +80,8 @@ class AuthWrapper extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // LOGIN ADMIN
 // -----------------------------------------------------------------------------
+// ==================== LOGIN ====================
+// Fungsi: Bagian login pada aplikasi.
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
 
@@ -81,12 +89,16 @@ class AdminLogin extends StatefulWidget {
   State<AdminLogin> createState() => _AdminLoginState();
 }
 
+// ==================== LOGIN ====================
+// Fungsi: Bagian login pada aplikasi.
 class _AdminLoginState extends State<AdminLogin> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _obscureText = true;
 
+// ==================== LOGIN ====================
+// Fungsi: Bagian login pada aplikasi.
   Future<void> _login() async {
     if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -97,6 +109,8 @@ class _AdminLoginState extends State<AdminLogin> {
 
     setState(() => _isLoading = true);
     try {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
@@ -221,6 +235,8 @@ class _AdminLoginState extends State<AdminLogin> {
                                   return;
                                 }
                                 try {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                                   await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
                                   if (mounted) {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -285,6 +301,8 @@ class _AdminLoginState extends State<AdminLogin> {
 // -----------------------------------------------------------------------------
 // HELPER: Firebase Auth akun Petugas melalui secondary app
 // -----------------------------------------------------------------------------
+// ==================== PETUGAS ====================
+// Fungsi: Bagian petugas pada aplikasi.
 Future<UserCredential> createPetugasAuthAccount({
   required String email,
   required String password,
@@ -295,6 +313,8 @@ Future<UserCredential> createPetugasAuthAccount({
     options: DefaultFirebaseOptions.currentPlatform,
   );
   try {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     final secondaryAuth = FirebaseAuth.instanceFor(app: secondaryApp);
     return await secondaryAuth.createUserWithEmailAndPassword(
       email: email.trim(),
@@ -305,6 +325,8 @@ Future<UserCredential> createPetugasAuthAccount({
   }
 }
 
+// ==================== PETUGAS ====================
+// Fungsi: Bagian petugas pada aplikasi.
 Future<void> sendPetugasPasswordReset(String email) async {
   final appName = 'petugasReset_${DateTime.now().millisecondsSinceEpoch}';
   final secondaryApp = await Firebase.initializeApp(
@@ -312,6 +334,8 @@ Future<void> sendPetugasPasswordReset(String email) async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   try {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     await FirebaseAuth.instanceFor(app: secondaryApp)
         .sendPasswordResetEmail(email: email.trim());
   } finally {
@@ -322,6 +346,8 @@ Future<void> sendPetugasPasswordReset(String email) async {
 // -----------------------------------------------------------------------------
 // DASHBOARD UTAMA
 // -----------------------------------------------------------------------------
+// ==================== DASHBOARD ADMIN ====================
+// Fungsi: Bagian dashboard admin pada aplikasi.
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
 
@@ -329,6 +355,8 @@ class AdminDashboard extends StatefulWidget {
   State<AdminDashboard> createState() => _AdminDashboardState();
 }
 
+// ==================== DASHBOARD ADMIN ====================
+// Fungsi: Bagian dashboard admin pada aplikasi.
 class _AdminDashboardState extends State<AdminDashboard> {
   final TextEditingController _searchController = TextEditingController();
   String searchQuery = '';
@@ -357,6 +385,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   // 1. Inisialisasi Izin & Simpan Token FCM Web Admin
   Future<void> _initAdminNotifications() async {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
     NotificationSettings settings = await messaging.requestPermission(
@@ -369,6 +399,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
       try {
         String? token = await messaging.getToken();
         if (token != null) {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
           await FirebaseFirestore.instance.collection('settings').doc('admin_token').set({
             'fcmToken': token,
             'updatedAt': FieldValue.serverTimestamp(),
@@ -381,6 +413,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
     }
 
     // Mendengarkan pesan saat web terbuka (Foreground)
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         _showAlertPopup(
@@ -393,7 +427,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   // 2. Deteksi Realtime Firestore untuk Notifikasi Instan di Web Admin
   void _listenNewAspirasiRealtime() {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     FirebaseFirestore.instance
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
         .collection('aspirasi')
         .orderBy('createdAt', descending: true)
         .snapshots()
@@ -652,11 +690,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
             onPressed: () => FirebaseAuth.instance.signOut(),
           ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
         stream: FirebaseFirestore.instance.collection('aspirasi').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -1011,6 +1053,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
 
   Widget _buildAdminDrawer(BuildContext context) {
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
     final user = FirebaseAuth.instance.currentUser;
     return Drawer(
       child: SafeArea(
@@ -1149,6 +1193,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text('Keluar'),
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
               onTap: () => FirebaseAuth.instance.signOut(),
             ),
           ],
@@ -1411,6 +1457,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       const SizedBox(height: 12),
 
                       StreamBuilder<QuerySnapshot>(
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                         stream: FirebaseFirestore.instance.collection('petugas').orderBy('nama').snapshots(),
                         builder: (context, snap) {
                           final items = snap.data?.docs ?? [];
@@ -1535,6 +1583,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
                             try {
                               final ext = (selectedFileName ?? 'foto.jpg').split('.').last.toLowerCase();
                               final contentType = ext == 'png' ? 'image/png' : 'image/jpeg';
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                               final ref = FirebaseStorage.instance
                                   .ref()
                                   .child('admin_responses')
@@ -1570,17 +1620,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               updateData['fotoUrlAdmin'] = finalPhotoAdmin;
                             }
 
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                             await FirebaseFirestore.instance
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                                 .collection('aspirasi')
                                 .doc(docId)
                                 .update(updateData);
 
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                             await FirebaseFirestore.instance.collection('admin_logs').add({
                               'action': 'update_aspirasi',
                               'aspirasiId': docId,
                               'status': selectedStatus,
                               'petugasId': selectedPetugasId,
                               'petugasNama': selectedPetugasNama,
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                               'adminUid': FirebaseAuth.instance.currentUser?.uid,
                               'createdAt': FieldValue.serverTimestamp(),
                             });
@@ -1623,6 +1681,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
 // -----------------------------------------------------------------------------
 // MANAJEMEN PETUGAS
 // -----------------------------------------------------------------------------
+// ==================== PETUGAS ====================
+// Fungsi: Bagian petugas pada aplikasi.
 class PetugasManagementPage extends StatefulWidget {
   const PetugasManagementPage({super.key});
 
@@ -1630,6 +1690,8 @@ class PetugasManagementPage extends StatefulWidget {
   State<PetugasManagementPage> createState() => _PetugasManagementPageState();
 }
 
+// ==================== PETUGAS ====================
+// Fungsi: Bagian petugas pada aplikasi.
 class _PetugasManagementPageState extends State<PetugasManagementPage> {
   final _searchController = TextEditingController();
   String _query = '';
@@ -1640,6 +1702,8 @@ class _PetugasManagementPageState extends State<PetugasManagementPage> {
     super.dispose();
   }
 
+// ==================== PETUGAS ====================
+// Fungsi: Bagian petugas pada aplikasi.
   Future<void> _openPetugasForm({DocumentSnapshot? existing}) async {
     final data = existing?.data() as Map<String, dynamic>?;
     final name = TextEditingController(text: data?['nama']?.toString() ?? '');
@@ -1720,6 +1784,8 @@ class _PetugasManagementPageState extends State<PetugasManagementPage> {
                     uid = authCred.user?.uid;
                   }
 
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                   await FirebaseFirestore.instance.collection('petugas').doc(petugasId).set({
                     'idPetugas': petugasId,
                     'nama': name.text.trim(),
@@ -1812,6 +1878,8 @@ class _PetugasManagementPageState extends State<PetugasManagementPage> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
         stream: FirebaseFirestore.instance.collection('petugas').orderBy('nama').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -1900,6 +1968,8 @@ class _PetugasManagementPageState extends State<PetugasManagementPage> {
                                     )),
                                     DataCell(
                                       StreamBuilder<QuerySnapshot>(
+// ==================== DATABASE / FIREBASE ====================
+// Fungsi: Bagian database / firebase pada aplikasi.
                                         stream: FirebaseFirestore.instance.collection('aspirasi')
                                             .where('petugasId', isEqualTo: doc.id).snapshots(),
                                         builder: (_, s) => Text('${s.data?.docs.length ?? 0}'),
@@ -1941,6 +2011,8 @@ class _PetugasManagementPageState extends State<PetugasManagementPage> {
   }
 }
 
+// ==================== HALAMAN ADMIN ====================
+// Fungsi: Bagian halaman admin pada aplikasi.
 class _MiniAdminCard extends StatelessWidget {
   final String title;
   final String value;
